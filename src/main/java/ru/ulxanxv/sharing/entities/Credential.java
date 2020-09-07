@@ -1,5 +1,7 @@
 package ru.ulxanxv.sharing.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,9 @@ public class Credential {
 
     @Column(name = "password")
     private String password;
+
+    @OneToOne(mappedBy = "credential")
+    private Client client;
 
     public Credential() {
     }
@@ -42,5 +47,13 @@ public class Credential {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
