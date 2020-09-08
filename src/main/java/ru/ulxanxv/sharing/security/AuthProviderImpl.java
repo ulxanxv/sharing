@@ -22,11 +22,15 @@ import java.util.List;
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
 
-    @Autowired
     private CredentialRepository credentialRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AuthProviderImpl(CredentialRepository credentialRepository, PasswordEncoder passwordEncoder) {
+        this.credentialRepository = credentialRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

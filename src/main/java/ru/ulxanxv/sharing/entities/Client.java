@@ -18,7 +18,7 @@ public class Client {
     @OneToOne(cascade = CascadeType.ALL)
     private Credential credential;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "firstOwner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Disk> disks;
 
     public Long getId() {

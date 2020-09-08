@@ -11,15 +11,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private AuthProviderImpl authProvider;
+
+    @Autowired
+    public SecurityConfig(AuthProviderImpl authProvider) {
+        this.authProvider = authProvider;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user", "/", "/start")
+                .antMatchers("/start")
                     .permitAll()
-                .antMatchers("/user/**")
+                .antMatchers("/", "user")
                     .authenticated()
                 .anyRequest()
                     .authenticated()

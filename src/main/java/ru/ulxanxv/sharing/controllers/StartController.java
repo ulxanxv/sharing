@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ulxanxv.sharing.entities.Client;
 import ru.ulxanxv.sharing.entities.Credential;
 import ru.ulxanxv.sharing.entities.Disk;
+import ru.ulxanxv.sharing.entities.TakenItem;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
+import ru.ulxanxv.sharing.repositories.TakenItemRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -19,14 +22,21 @@ import java.util.Collections;
 @RequestMapping("/start")
 public class StartController {
 
-    @Autowired
     private CredentialRepository credentialRepository;
 
-    @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private TakenItemRepository takenItemRepository;
+
+    @Autowired
+    public StartController(CredentialRepository credentialRepository, ClientRepository clientRepository, PasswordEncoder passwordEncoder, TakenItemRepository takenItemRepository) {
+        this.credentialRepository = credentialRepository;
+        this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.takenItemRepository = takenItemRepository;
+    }
 
     @GetMapping
     public ResponseEntity<?> start() {
@@ -38,16 +48,16 @@ public class StartController {
         credentialRepository.save(credential);
 
         // Second credential
-        credential = new Credential();
-        credential.setName("Amberd");
-        credential.setPassword(passwordEncoder.encode("alowen"));
-        credentialRepository.save(credential);
+        Credential credential1 = new Credential();
+        credential1.setName("Amberd");
+        credential1.setPassword(passwordEncoder.encode("alowen"));
+        credentialRepository.save(credential1);
 
         // Third credential
-        credential = new Credential();
-        credential.setName("Ynagan");
-        credential.setPassword(passwordEncoder.encode("vatene"));
-        credentialRepository.save(credential);
+        Credential credential2 = new Credential();
+        credential2.setName("Ynagan");
+        credential2.setPassword(passwordEncoder.encode("vatene"));
+        credentialRepository.save(credential2);
 
         // First client
         Client client = new Client();
@@ -56,33 +66,85 @@ public class StartController {
 
         Disk disk = new Disk();
         disk.setName("OneDisk");
-        disk.setFirstOwner(client);
+        disk.setOwner(client);
+
+        TakenItem takenItem = new TakenItem();
+        takenItem.setDisk(disk);
+        takenItemRepository.save(takenItem);
 
         Disk disk1 = new Disk();
         disk1.setName("SecondDisk");
-        disk1.setFirstOwner(client);
+        disk1.setOwner(client);
+
+        takenItem = new TakenItem();
+        takenItem.setDisk(disk1);
+        takenItemRepository.save(takenItem);
 
         Disk disk2 = new Disk();
         disk2.setName("ThirdDisk");
-        disk2.setFirstOwner(client);
+        disk2.setOwner(client);
 
-        client.setDisks(Arrays.asList(disk, disk1, disk2));
+        takenItem = new TakenItem();
+        takenItem.setDisk(disk2);
+        takenItemRepository.save(takenItem);
+
+        client.setDisks(new ArrayList<>());
+        client.getDisks().add(disk);
+        client.getDisks().add(disk1);
+        client.getDisks().add(disk2);
+
         clientRepository.save(client);
 
         // Second client
         client = new Client();
         client.setName("Amberd");
-        client.setCredential(credential);
+        client.setCredential(credential1);
 
         disk = new Disk();
         disk.setName("FourthDisk");
-        disk.setFirstOwner(client);
+        disk.setOwner(client);
+
+        takenItem = new TakenItem();
+        takenItem.setDisk(disk);
+        takenItemRepository.save(takenItem);
 
         disk1 = new Disk();
         disk1.setName("FifthDisk");
-        disk1.setFirstOwner(client);
+        disk1.setOwner(client);
 
-        client.setDisks(Arrays.asList(disk, disk1));
+        takenItem = new TakenItem();
+        takenItem.setDisk(disk1);
+        takenItemRepository.save(takenItem);
+
+        client.setDisks(new ArrayList<>());
+        client.getDisks().add(disk);
+        client.getDisks().add(disk1);
+        clientRepository.save(client);
+
+        // Third client
+        client = new Client();
+        client.setName("Ynagan");
+        client.setCredential(credential2);
+
+        disk = new Disk();
+        disk.setName("SixthDisk");
+        disk.setOwner(client);
+
+        takenItem = new TakenItem();
+        takenItem.setDisk(disk);
+        takenItemRepository.save(takenItem);
+
+        disk1 = new Disk();
+        disk1.setName("SeventhDisk");
+        disk1.setOwner(client);
+
+        takenItem = new TakenItem();
+        takenItem.setDisk(disk1);
+        takenItemRepository.save(takenItem);
+
+        client.setDisks(new ArrayList<>());
+        client.getDisks().add(disk);
+        client.getDisks().add(disk1);
         clientRepository.save(client);
 
         return ResponseEntity.ok(Collections.EMPTY_LIST);

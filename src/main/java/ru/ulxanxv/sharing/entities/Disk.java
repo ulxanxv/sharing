@@ -1,8 +1,6 @@
 package ru.ulxanxv.sharing.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 
@@ -18,9 +16,14 @@ public class Disk {
     private String name;
 
     @JsonIgnore
-    @JoinColumn(name = "first_owner_id")
+    @JoinColumn(name = "owner_id")
     @ManyToOne(cascade = CascadeType.ALL)
-    private Client firstOwner;
+    private Client owner;
+
+    @JsonIgnore
+    @JoinColumn(name = "debtor_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Client debtor;
 
     public Long getId() {
         return id;
@@ -38,11 +41,19 @@ public class Disk {
         this.name = name;
     }
 
-    public Client getFirstOwner() {
-        return firstOwner;
+    public Client getOwner() {
+        return owner;
     }
 
-    public void setFirstOwner(Client firstOwner) {
-        this.firstOwner = firstOwner;
+    public void setOwner(Client owner) {
+        this.owner = owner;
+    }
+
+    public Client getDebtor() {
+        return debtor;
+    }
+
+    public void setDebtor(Client debtor) {
+        this.debtor = debtor;
     }
 }
