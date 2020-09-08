@@ -19,6 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import ru.ulxanxv.sharing.entities.*;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
+import ru.ulxanxv.sharing.repositories.DiskRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
 
 import java.util.ArrayList;
@@ -40,11 +41,14 @@ public class MainController {
 
     private TakenItemRepository takenItemRepository;
 
+    private DiskRepository diskRepository;
+
     @Autowired
-    public MainController(CredentialRepository credentialRepository, ClientRepository clientRepository, TakenItemRepository takenItemRepository) {
+    public MainController(CredentialRepository credentialRepository, ClientRepository clientRepository, TakenItemRepository takenItemRepository, DiskRepository diskRepository) {
         this.credentialRepository = credentialRepository;
         this.clientRepository = clientRepository;
         this.takenItemRepository = takenItemRepository;
+        this.diskRepository = diskRepository;
     }
 
     @GetMapping
@@ -88,6 +92,50 @@ public class MainController {
         List<Auxiliary> getTakenDisksFromUser = new ArrayList<>();
         takenItemRepository.findTakenItemFromUser(authenticatedId).forEach(x -> getTakenDisksFromUser.add(Auxiliary.getInstance(x)));
         return ResponseEntity.ok(getTakenDisksFromUser);
+    }
+
+    @GetMapping("/user/getDisk/{id}")
+    public ResponseEntity<?> getDisk(@PathVariable("id") Long id) {
+        Disk freeDisk = takenItemRepository.findFreeDisk(id);
+        if (freeDisk == null) {
+            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+
+        Client client = clientRepository.findById(authenticatedId).get();
+        if (client.getName().equals(freeDisk.getOwner().getName())) {
+            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+
+        TakenItem takenItem = takenItemRepository.findByDiskId(freeDisk.getId());
+        freeDisk.setDebtor(client);
+        takenItem.setDebtor(client);
+
+        takenItemRepository.save(takenItem);
+        diskRepository.save(freeDisk);
+
+        return ResponseEntity.ok(Collections.EMPTY_LIST);
+    }
+
+    @GetMapping("/user/returnDisk/{id}")
+    public ResponseEntity<?> returnDisk(@PathVariable("id") Long id) {
+        Disk busyDisk = diskRepository.findById(id).get();
+        if (busyDisk.getDebtor() == null) {
+            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+
+        Client client = clientRepository.findById(authenticatedId).get();
+        if (client.getName().equals(busyDisk.getOwner().getName())) {
+            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+
+        TakenItem takenItem = takenItemRepository.findByDiskId(busyDisk.getId());
+        busyDisk.setDebtor(null);
+        takenItem.setDebtor(null);
+
+        takenItemRepository.save(takenItem);
+        diskRepository.save(busyDisk);
+
+        return ResponseEntity.ok(Collections.EMPTY_LIST);
     }
 
     private void defineAuthenticatedId() {
