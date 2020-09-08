@@ -9,16 +9,16 @@ import javax.persistence.*;
 public class Credential {
 
     @Id
-    @TableGenerator(name = "myGen", table = "credential_sequence", initialValue = 0, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "myGen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = false)
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "password")
     private String password;
 
+    @JsonBackReference
     @OneToOne(mappedBy = "credential")
     private Client client;
 

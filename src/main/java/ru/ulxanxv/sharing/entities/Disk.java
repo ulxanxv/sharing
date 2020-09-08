@@ -1,5 +1,9 @@
 package ru.ulxanxv.sharing.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,13 +11,14 @@ import javax.persistence.*;
 public class Disk {
 
     @Id
-    @TableGenerator(name = "myGen", table = "disk_sequence", initialValue = 0, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "myGen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
+    @JsonIgnore
+    @JoinColumn(name = "first_owner_id")
     @ManyToOne(cascade = CascadeType.ALL)
     private Client firstOwner;
 

@@ -9,18 +9,16 @@ import java.util.List;
 public class Client {
 
     @Id
-    @TableGenerator(name = "myGen", table = "client_sequence", initialValue = 0, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "myGen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_name")
+    @Column(name = "client_name", unique = true)
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "credential_id")
     private Credential credential;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "firstOwner")
     private List<Disk> disks;
 
     public Long getId() {
