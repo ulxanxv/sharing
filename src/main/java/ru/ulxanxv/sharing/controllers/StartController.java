@@ -44,7 +44,7 @@ public class StartController {
         // First credential
         Credential credential = new Credential();
         credential.setName("Ulxanxv");
-        credential.setPassword(passwordEncoder.encode("nakaro"));
+        credential.setPassword(passwordEncoder.encode("1234"));
         credentialRepository.save(credential);
 
         // Second credential
@@ -96,13 +96,13 @@ public class StartController {
         clientRepository.save(client);
 
         // Second client
-        client = new Client();
-        client.setName("Amberd");
-        client.setCredential(credential1);
+        Client client1 = new Client();
+        client1.setName("Amberd");
+        client1.setCredential(credential1);
 
         disk = new Disk();
         disk.setName("FourthDisk");
-        disk.setOwner(client);
+        disk.setOwner(client1);
 
         takenItem = new TakenItem();
         takenItem.setDisk(disk);
@@ -110,16 +110,16 @@ public class StartController {
 
         disk1 = new Disk();
         disk1.setName("FifthDisk");
-        disk1.setOwner(client);
+        disk1.setOwner(client1);
 
         takenItem = new TakenItem();
         takenItem.setDisk(disk1);
         takenItemRepository.save(takenItem);
 
-        client.setDisks(new ArrayList<>());
-        client.getDisks().add(disk);
-        client.getDisks().add(disk1);
-        clientRepository.save(client);
+        client1.setDisks(new ArrayList<>());
+        client1.getDisks().add(disk);
+        client1.getDisks().add(disk1);
+        clientRepository.save(client1);
 
         // Third client
         client = new Client();
@@ -128,18 +128,22 @@ public class StartController {
 
         disk = new Disk();
         disk.setName("SixthDisk");
+        disk.setDebtor(client1);
         disk.setOwner(client);
 
         takenItem = new TakenItem();
         takenItem.setDisk(disk);
+        takenItem.setDebtor(client1);
         takenItemRepository.save(takenItem);
 
         disk1 = new Disk();
         disk1.setName("SeventhDisk");
+        disk1.setDebtor(client1);
         disk1.setOwner(client);
 
         takenItem = new TakenItem();
         takenItem.setDisk(disk1);
+        takenItem.setDebtor(client1);
         takenItemRepository.save(takenItem);
 
         client.setDisks(new ArrayList<>());
