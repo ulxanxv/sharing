@@ -15,7 +15,6 @@ import ru.ulxanxv.sharing.repositories.CredentialRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 @RestController
@@ -38,6 +37,10 @@ public class StartController {
         this.takenItemRepository = takenItemRepository;
     }
 
+    /**
+     * Populating the database with initial values
+     * @return
+     */
     @GetMapping
     public ResponseEntity<?> start() {
 
