@@ -5,7 +5,7 @@
 + [{url: 'user/getMyDisks', method: 'GET'}] — список дисков пользователя
 + [{url: 'user/getFreeDisks', method: 'GET'}] — список свободных дисков (которые можно взять)
 + [{url: 'user/getTakenDisks', method: 'GET'}] — список дисков, взятых пользователем
-+ [{user/getTakenFromUser, method: 'GET'}] — список дисков, взятых у пользователя (с указанием, кто взял)
++ [{url: 'user/getTakenFromUser', method: 'GET'}] — список дисков, взятых у пользователя (с указанием, кто взял)
 
 ## Инструкция по обменным операциям
 
