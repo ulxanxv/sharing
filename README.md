@@ -14,5 +14,5 @@
 
 ## Инструкция по обменным операциям
 
-+ [{url: '/user/getDisk/{id}', method: 'GET'}] — взять диск взаймы
-+ [{url: '/user/returnDisk/{id}}', method: 'GET'}] — вернуть диск, который был взят ранее
++ [{url: '/user/getDisk/{diskId}', method: 'GET'}] — взять диск взаймы
++ [{url: '/user/returnDisk/{diskId}}', method: 'GET'}] — вернуть диск, который был взят ранее
