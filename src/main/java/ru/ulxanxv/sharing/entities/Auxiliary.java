@@ -1,5 +1,7 @@
 package ru.ulxanxv.sharing.entities;
 
+import java.util.HashMap;
+
 public class Auxiliary {
 
     private Long diskId;

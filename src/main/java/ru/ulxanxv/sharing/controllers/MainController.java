@@ -65,6 +65,7 @@ public class MainController {
         List<Disk> freeDisks = takenItemRepository.findByFree(true)
                 .stream()
                 .map(TakenItem::getDisk)
+                .filter(x -> !x.getOwner().getId().equals(authenticatedId))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(freeDisks);
     }
