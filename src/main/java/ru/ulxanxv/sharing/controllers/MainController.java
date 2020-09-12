@@ -90,12 +90,12 @@ public class MainController {
     public ResponseEntity<?> getDisk(@PathVariable("id") Long id) {
         Disk freeDisk = takenItemRepository.findFreeDisk(id);
         if (freeDisk == null) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().body("This disk is busy!");
         }
 
         Client client = clientRepository.findById(authenticatedId).get();
         if (client.getName().equals(freeDisk.getOwner().getName())) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().body("You cannot borrow your disc from yourself!");
         }
 
         TakenItem takenItem = takenItemRepository.findByDiskId(freeDisk.getId());
@@ -112,12 +112,12 @@ public class MainController {
     public ResponseEntity<?> returnDisk(@PathVariable("id") Long id) {
         Disk busyDisk = diskRepository.findById(id).get();
         if (busyDisk.getDebtor() == null) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().body("Nobody borrowed this disc!");
         }
 
         Client client = clientRepository.findById(authenticatedId).get();
-        if (client.getName().equals(busyDisk.getOwner().getName())) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        if (!client.getName().equals(busyDisk.getDebtor().getName())) {
+            return ResponseEntity.badRequest().body("You cannot return this disc!");
         }
 
         TakenItem takenItem = takenItemRepository.findByDiskId(busyDisk.getId());
