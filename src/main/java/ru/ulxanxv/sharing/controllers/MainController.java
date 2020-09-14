@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.ulxanxv.sharing.advice.DefineId;
 import ru.ulxanxv.sharing.entities.*;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
@@ -43,9 +44,8 @@ public class MainController {
     }
 
     @GetMapping
+    @DefineId
     public ResponseEntity<?> welcome() {
-        defineAuthenticatedId();
-
         String userName = clientRepository.findById(authenticatedId)
                 .get()
                 .getName();
@@ -130,7 +130,7 @@ public class MainController {
         return ResponseEntity.ok(Collections.EMPTY_LIST);
     }
 
-    private void defineAuthenticatedId() {
+    public void defineAuthenticatedId() {
         String userName;
         Credential auth = ((Credential) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
