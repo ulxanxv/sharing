@@ -1,4 +1,4 @@
-package ru.ulxanxv.sharing.advice;
+package ru.ulxanxv.sharing.aspects;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,7 +10,7 @@ import ru.ulxanxv.sharing.controllers.MainController;
 @Component
 public class DefineIdAspect {
 
-    @Before(value = "@annotation(ru.ulxanxv.sharing.advice.DefineId)")
+    @Before(value = "@annotation(ru.ulxanxv.sharing.aspects.DefineId)")
     public void defineIdBefore(JoinPoint joinPoint) {
         ((MainController) joinPoint.getTarget()).defineAuthenticatedId();
     }
