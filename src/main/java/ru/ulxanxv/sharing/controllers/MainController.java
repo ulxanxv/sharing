@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ulxanxv.sharing.aspects.DefineId;
+import ru.ulxanxv.sharing.aspects.IDefineId;
 import ru.ulxanxv.sharing.entities.*;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
-public class MainController {
+public class MainController implements IDefineId {
 
     private Long authenticatedId;
 
@@ -130,6 +131,7 @@ public class MainController {
         return ResponseEntity.ok(Collections.EMPTY_LIST);
     }
 
+    @Override
     public void defineAuthenticatedId() {
         String userName;
         Credential auth = ((Credential) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
