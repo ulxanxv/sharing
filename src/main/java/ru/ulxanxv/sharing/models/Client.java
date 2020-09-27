@@ -1,4 +1,4 @@
-package ru.ulxanxv.sharing.entities;
+package ru.ulxanxv.sharing.models;
 
 
 import javax.persistence.*;

@@ -1,6 +1,4 @@
-package ru.ulxanxv.sharing.entities;
-
-import java.util.HashMap;
+package ru.ulxanxv.sharing.models;
 
 public class Auxiliary {
 

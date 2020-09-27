@@ -31,7 +31,7 @@ public class MainControllerTest {
 
     private void start() throws Exception {
         mockMvc.perform(get("/start"));
-        mockMvc.perform(get("/")
+        mockMvc.perform(get("/user/")
                 .with(userHttpBasic()));
     }
 

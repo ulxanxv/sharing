@@ -6,10 +6,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.ulxanxv.sharing.entities.Client;
-import ru.ulxanxv.sharing.entities.Credential;
-import ru.ulxanxv.sharing.entities.Disk;
-import ru.ulxanxv.sharing.entities.TakenItem;
+import ru.ulxanxv.sharing.models.Client;
+import ru.ulxanxv.sharing.models.Credential;
+import ru.ulxanxv.sharing.models.Disk;
+import ru.ulxanxv.sharing.models.TakenItem;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
@@ -21,13 +21,11 @@ import java.util.Collections;
 @RequestMapping("/start")
 public class StartController {
 
-    private CredentialRepository credentialRepository;
+    private final CredentialRepository credentialRepository;
+    private final ClientRepository clientRepository;
+    private final TakenItemRepository takenItemRepository;
 
-    private ClientRepository clientRepository;
-
-    private PasswordEncoder passwordEncoder;
-
-    private TakenItemRepository takenItemRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public StartController(CredentialRepository credentialRepository, ClientRepository clientRepository, PasswordEncoder passwordEncoder, TakenItemRepository takenItemRepository) {
@@ -39,7 +37,7 @@ public class StartController {
 
     /**
      * Populating the database with initial values
-     * @return
+     * @return Empty collection
      */
     @GetMapping
     public ResponseEntity<?> start() {
@@ -47,18 +45,21 @@ public class StartController {
         // First credential
         Credential credential = new Credential();
         credential.setName("Ulxanxv");
+        credential.setRole("USER");
         credential.setPassword(passwordEncoder.encode("1234"));
         credentialRepository.save(credential);
 
         // Second credential
         Credential credential1 = new Credential();
         credential1.setName("Amberd");
+        credential.setRole("USER");
         credential1.setPassword(passwordEncoder.encode("alowen"));
         credentialRepository.save(credential1);
 
         // Third credential
         Credential credential2 = new Credential();
         credential2.setName("Ynagan");
+        credential.setRole("USER");
         credential2.setPassword(passwordEncoder.encode("vatene"));
         credentialRepository.save(credential2);
 

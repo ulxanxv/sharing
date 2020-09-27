@@ -1,4 +1,4 @@
-package ru.ulxanxv.sharing.entities;
+package ru.ulxanxv.sharing.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -18,12 +18,14 @@ public class Credential {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     @JsonBackReference
     @OneToOne(mappedBy = "credential")
     private Client client;
 
-    public Credential() {
-    }
+    public Credential() {}
 
     public Long getId() {
         return id;
@@ -47,6 +49,14 @@ public class Credential {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Client getClient() {

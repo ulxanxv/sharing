@@ -3,8 +3,8 @@ package ru.ulxanxv.sharing.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.ulxanxv.sharing.entities.Disk;
-import ru.ulxanxv.sharing.entities.TakenItem;
+import ru.ulxanxv.sharing.models.Disk;
+import ru.ulxanxv.sharing.models.TakenItem;
 
 import java.util.List;
 
