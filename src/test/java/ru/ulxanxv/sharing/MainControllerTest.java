@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,38 +30,37 @@ public class MainControllerTest {
     }
 
     private void start() throws Exception {
-        mockMvc.perform(get("/start"));
         mockMvc.perform(get("/user/")
                 .with(userHttpBasic()));
     }
 
     @Test
     public void allDisks() throws Exception {
-        this.mockMvc.perform(get("/user/getMyDisks")
+        this.mockMvc.perform(get("/user/disks")
                 .with(userHttpBasic()))
                 .andDo(print())
-                .andExpect(content().string(containsString("{\"id\":1,\"name\":\"OneDisk\"},{\"id\":2,\"name\":\"SecondDisk\"},{\"id\":3,\"name\":\"ThirdDisk\"}")));
+                .andExpect(content().string(containsString("[{\"id\":1,\"name\":\"First Disk\"},{\"id\":2,\"name\":\"Second Disk\"},{\"id\":3,\"name\":\"Third Disk\"}]")));
     }
 
     @Test
     public void freeDisks() throws Exception {
-        this.mockMvc.perform(get("/user/getFreeDisks")
+        this.mockMvc.perform(get("/user/free_disks")
                 .with(userHttpBasic()))
                 .andDo(print())
-                .andExpect(content().string(containsString("[{\"id\":5,\"name\":\"FifthDisk\"},{\"id\":4,\"name\":\"FourthDisk\"}]")));
+                .andExpect(content().string(containsString("[{\"id\":5,\"name\":\"Fifth Disk\"},{\"id\":4,\"name\":\"Fourth Disk\"}]")));
     }
 
     @Test
     public void takenDisks() throws Exception {
-        this.mockMvc.perform(get("/user/getTakenDisks")
+        this.mockMvc.perform(get("/user/taken_disks_by_me")
                 .with(userHttpBasic()))
                 .andDo(print())
-                .andExpect(content().string(containsString("")));
+                .andExpect(content().string(containsString("[{\"id\":6,\"name\":\"Sixth Disk\"},{\"id\":7,\"name\":\"Seventh Disk\"}]")));
     }
 
     @Test
     public void takenFromUser() throws Exception {
-        this.mockMvc.perform(get("/user/getTakenFromUser")
+        this.mockMvc.perform(get("/user/taken_disks_from_me")
                 .with(userHttpBasic()))
                 .andDo(print())
                 .andExpect(content().string(containsString("")));
@@ -70,28 +69,28 @@ public class MainControllerTest {
     @Test
     public void okRequests() throws Exception {
         // Trying to take an available disk
-        this.mockMvc.perform(get("/user/getDisk/4")
+        this.mockMvc.perform(post("/user/getDisk/4")
                 .with(userHttpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         // Data has changed in the database
-        this.mockMvc.perform(get("/user/getTakenDisks")
+        this.mockMvc.perform(get("/user/taken_disks_by_me")
                 .with(userHttpBasic()))
                 .andDo(print())
-                .andExpect(content().string(containsString("{\"id\":4,\"name\":\"FourthDisk\"}")));
+                .andExpect(content().string(containsString("[{\"id\":4,\"name\":\"Fourth Disk\"},{\"id\":6,\"name\":\"Sixth Disk\"},{\"id\":7,\"name\":\"Seventh Disk\"}]")));
 
         // Returning a disc
-        this.mockMvc.perform(get("/user/returnDisk/4")
+        this.mockMvc.perform(post("/user/returnDisk/4")
                 .with(userHttpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         // Data has changed in the database (now not a debtor)
-        this.mockMvc.perform(get("/user/getTakenDisks")
+        this.mockMvc.perform(get("/user/taken_disks_by_me")
                 .with(userHttpBasic()))
                 .andDo(print())
-                .andExpect(content().string(containsString("")));
+                .andExpect(content().string(containsString("[{\"id\":6,\"name\":\"Sixth Disk\"},{\"id\":7,\"name\":\"Seventh Disk\"}]")));
     }
 
     @Test
@@ -101,7 +100,7 @@ public class MainControllerTest {
          */
         start();
 
-        this.mockMvc.perform(get("/user/getDisk/2")
+        this.mockMvc.perform(post("/user/getDisk/1")
                 .with(userHttpBasic()))
                 .andDo(print())
                 .andExpect(content().string(containsString("You cannot borrow your disc from yourself!")));
@@ -109,7 +108,7 @@ public class MainControllerTest {
 
     @Test
     public void tryTakeUnavailableDisk() throws Exception {
-        this.mockMvc.perform(get("/user/getDisk/6")
+        this.mockMvc.perform(post("/user/getDisk/6")
                 .with(userHttpBasic()))
                 .andDo(print())
                 .andExpect(content().string(containsString("This disk is busy!")));
@@ -117,7 +116,7 @@ public class MainControllerTest {
 
     @Test
     public void tryReturnDiskThatNobodyTook() throws Exception {
-        this.mockMvc.perform(get("/user/returnDisk/4")
+        this.mockMvc.perform(post("/user/returnDisk/4")
                 .with(userHttpBasic()))
                 .andDo(print())
                 .andExpect(content().string(containsString("Nobody borrowed this disc!")));
@@ -125,7 +124,7 @@ public class MainControllerTest {
 
     @Test
     public void tryReturnDiskDidNotTake() throws Exception {
-        this.mockMvc.perform(get("/user/returnDisk/6")
+        this.mockMvc.perform(post("/user/returnDisk/5")
                 .with(userHttpBasic()))
                 .andDo(print())
                 .andExpect(content().string(containsString("You cannot return this disc!")));

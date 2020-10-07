@@ -17,13 +17,8 @@ public class Disk {
 
     @JsonIgnore
     @JoinColumn(name = "owner_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Client owner;
-
-    @JsonIgnore
-    @JoinColumn(name = "debtor_id")
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Client debtor;
 
     public Long getId() {
         return id;
@@ -47,13 +42,5 @@ public class Disk {
 
     public void setOwner(Client owner) {
         this.owner = owner;
-    }
-
-    public Client getDebtor() {
-        return debtor;
-    }
-
-    public void setDebtor(Client debtor) {
-        this.debtor = debtor;
     }
 }

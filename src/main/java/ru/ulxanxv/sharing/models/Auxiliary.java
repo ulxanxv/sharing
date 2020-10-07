@@ -4,7 +4,7 @@ public class Auxiliary {
 
     private Long diskId;
     private String diskName;
-    private  String debtor;
+    private String debtor;
 
     private Auxiliary() {
     }

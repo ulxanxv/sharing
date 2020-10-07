@@ -16,7 +16,11 @@ public class TakenItem {
     @OneToOne(cascade = CascadeType.ALL)
     private Disk disk;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "owner_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Client owner;
+
+    @JoinColumn(name = "debtor_id")
     @OneToOne(cascade = CascadeType.ALL)
     private Client debtor;
 
@@ -38,6 +42,14 @@ public class TakenItem {
     public void setDisk(@NotNull Disk disk) {
         this.disk = disk;
         this.isFree = (debtor == null);
+    }
+
+    public Client getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Client owner) {
+        this.owner = owner;
     }
 
     public Client getDebtor() {

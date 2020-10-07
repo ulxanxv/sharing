@@ -8,20 +8,22 @@ import ru.ulxanxv.sharing.models.TakenItem;
 
 import java.util.List;
 
+
 public interface TakenItemRepository extends JpaRepository<TakenItem, Long> {
 
-    @Query("SELECT t FROM TakenItem t WHERE t.isFree = :isFree")
-    List<TakenItem> findByFree(@Param("isFree") boolean isFree);
+    @Query("SELECT d FROM TakenItem t JOIN Disk d ON t.disk.id = d.id WHERE t.debtor.id = :id")
+    List<Disk> findTakenDisks(@Param("id") Long id);
 
-    @Query("SELECT d.id, d.name, d.debtor.name FROM Disk d INNER JOIN TakenItem t ON d.id = t.disk.id WHERE d.owner.id = :id AND d.debtor IS NOT NULL")
-    List<Object[]> findTakenItemFromUser(@Param("id") Long id);
-
-    @Query("SELECT d FROM Disk d INNER JOIN TakenItem t ON d.id = t.disk.id WHERE d.id = :id AND t.isFree = true")
+    @Query("SELECT d FROM Disk d JOIN TakenItem t ON d.id = t.disk.id WHERE d.id = :id AND t.isFree = true")
     Disk findFreeDisk(@Param("id") Long id);
-
-    List<TakenItem> findByDebtorId(Long id);
 
     @Query("SELECT t FROM TakenItem t WHERE t.disk.id = :id")
     TakenItem findByDiskId(@Param("id") Long id);
+
+    @Query("SELECT d.id, d.name, t.debtor.name FROM Disk d JOIN TakenItem t ON d.id = t.disk.id WHERE t.owner.id = :id AND t.debtor IS NOT NULL")
+    List<Object[]> findTakenItemFromUser(@Param("id") Long id);
+
+    @Query("SELECT t FROM TakenItem t WHERE t.disk.id = :id")
+    TakenItem findReturningDisk(@Param("id") Long id);
 
 }
