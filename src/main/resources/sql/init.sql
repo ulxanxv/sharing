@@ -34,6 +34,6 @@ INSERT
         (true, 2, 1, NULL),
         (true, 3, 1, NULL),
         (true, 4, 2, NULL),
-        (true, 5, 2, 2),
-        (false , 6, 3, 1),
+        (false, 5, 2, 2),
+        (false, 6, 3, 1),
         (false, 7, 3, 1);
