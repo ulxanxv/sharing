@@ -16,15 +16,15 @@ INSERT
 
 INSERT
     INTO disk
-       (name, owner_id)
+       (name)
     VALUES
-        ('First Disk', 1),
-        ('Second Disk', 1),
-        ('Third Disk', 1),
-        ('Fourth Disk', 2),
-        ('Fifth Disk', 2),
-        ('Sixth Disk', 3),
-        ('Seventh Disk', 3);
+        ('First Disk'),
+        ('Second Disk'),
+        ('Third Disk'),
+        ('Fourth Disk'),
+        ('Fifth Disk'),
+        ('Sixth Disk'),
+        ('Seventh Disk');
 
 INSERT
     INTO taken_item

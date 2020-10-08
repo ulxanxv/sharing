@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>ru.ulxanxv</groupId>
 	<artifactId>sharing</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>sharing</name>
 	<description>For the Challenge</description>
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>11</java.version>

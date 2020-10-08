@@ -54,34 +54,34 @@ public class MainController implements IDefineId {
         return ResponseEntity.ok("Welcome to my REST-application project, " + userName + "!");
     }
 
-    @GetMapping("/disks")
+    @GetMapping("/disks/all")
     public ResponseEntity<List<Disk>> disks() {
-        return diskInfoService.allUserDisks();
+        return ResponseEntity.ok(diskInfoService.allUserDisks());
     }
 
-    @GetMapping("/free_disks")
+    @GetMapping("/disks/free")
     public ResponseEntity<List<Disk>> freeDisks() {
-        return diskInfoService.allFreeDisks();
+        return ResponseEntity.ok(diskInfoService.allFreeDisks());
     }
 
-    @GetMapping("/taken_disks_by_me")
+    @GetMapping("/disks/taken/by_me")
     public ResponseEntity<List<Disk>> takenDisksByMe() {
-        return diskInfoService.allTakenDisksByUser();
+        return ResponseEntity.ok(diskInfoService.allTakenDisksByUser());
     }
 
-    @GetMapping("/taken_disks_from_me")
+    @GetMapping("/disks/taken/from_me")
     public ResponseEntity<List<Auxiliary>> takenDisksFromMe() {
-        return diskInfoService.allTakenDisksFromUser();
+        return ResponseEntity.ok(diskInfoService.allTakenDisksFromUser());
     }
 
-    @PostMapping("/getDisk/{id}")
-    public ResponseEntity<?> getDisk(@PathVariable("id") Long id) {
-        return diskSharingService.getDisk(id);
+    @PutMapping("/disk/take/{id}")
+    public ResponseEntity<?> takeDisk(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(diskSharingService.takeDisk(id));
     }
 
-    @PostMapping("/returnDisk/{id}")
+    @PutMapping("/disk/return/{id}")
     public ResponseEntity<?> returnDisk(@PathVariable("id") Long id) {
-        return diskSharingService.returnDisk(id);
+        return ResponseEntity.ok(diskSharingService.returnDisk(id));
     }
 
     @Override

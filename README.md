@@ -2,17 +2,16 @@
 
 ## Первоначальная загрузка (обязательно)
 
-+ `Необходимо обратиться по URL '(...):8080/start' для загрузки данных в СУБД`
 + `Нужно обратиться по URL '(...):8080/user/' для прохождения авторизации`
 
 ## Инструкция по получению информации о дисках
 
-+ [{url: 'user/getMyDisks', method: 'GET'}] — список дисков пользователя
-+ [{url: 'user/getFreeDisks', method: 'GET'}] — список свободных дисков (которые можно взять)
-+ [{url: 'user/getTakenDisks', method: 'GET'}] — список дисков, взятых пользователем
-+ [{url: 'user/getTakenFromUser', method: 'GET'}] — список дисков, взятых у пользователя (с указанием, кто взял)
++ [{url: '/user/disks/all', method: 'GET'}] — список дисков пользователя
++ [{url: '/user/disks/free', method: 'GET'}] — список свободных дисков (которые можно взять)
++ [{url: '/user/disks/taken/by_me', method: 'GET'}] — список дисков, взятых пользователем
++ [{url: '/user/disks/taken/from_me', method: 'GET'}] — список дисков, взятых у пользователя (с указанием, кто взял)
 
 ## Инструкция по обменным операциям
 
-+ [{url: '/user/getDisk/{diskId}', method: 'GET'}] — взять диск взаймы
-+ [{url: '/user/returnDisk/{diskId}}', method: 'GET'}] — вернуть диск, который был взят ранее
++ [{url: '/user/disk/take/{diskId}', method: 'PUT'}] — взять диск взаймы
++ [{url: '/user/disk/return/{diskId}}', method: 'PUT'}] — вернуть диск, который был взят ранее

@@ -1,14 +1,12 @@
 package ru.ulxanxv.sharing.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ulxanxv.sharing.models.Auxiliary;
 import ru.ulxanxv.sharing.models.Client;
 import ru.ulxanxv.sharing.models.Disk;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
-import ru.ulxanxv.sharing.repositories.CredentialRepository;
 import ru.ulxanxv.sharing.repositories.DiskRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
 
@@ -35,32 +33,31 @@ public class DiskInfoService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<Disk>> allUserDisks() {
+    public List<Disk> allUserDisks() {
         Optional<Client> byId = clientRepository.findById(authenticatedId);
 
         if (byId.isPresent()) {
-            return ResponseEntity.ok(diskRepository.findAllDisks(byId.get().getId()));
+            return diskRepository.findAllDisks(byId.get().getId());
         }
 
         throw new NoSuchElementException("User not found!");
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<Disk>> allFreeDisks() {
-        return ResponseEntity.ok(diskRepository.findFreeDisks(authenticatedId));
+    public List<Disk> allFreeDisks() {
+        return diskRepository.findFreeDisks(authenticatedId);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<Disk>> allTakenDisksByUser() {
-        List<Disk> getTakenDisks = takenItemRepository.findTakenDisks(authenticatedId);
-        return ResponseEntity.ok(getTakenDisks);
+    public List<Disk> allTakenDisksByUser() {
+        return takenItemRepository.findTakenDisks(authenticatedId);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<Auxiliary>> allTakenDisksFromUser() {
-        List<Auxiliary> getTakenDisksFromUser = new ArrayList<>();
-        takenItemRepository.findTakenItemFromUser(authenticatedId).forEach(x -> getTakenDisksFromUser.add(Auxiliary.getInstance(x)));
-        return ResponseEntity.ok(getTakenDisksFromUser);
+    public List<Auxiliary> allTakenDisksFromUser() {
+        List<Auxiliary> takenDisksFromUser = new ArrayList<>();
+        takenItemRepository.findTakenItemFromUser(authenticatedId).forEach(x -> takenDisksFromUser.add(Auxiliary.getInstance(x)));
+        return takenDisksFromUser;
     }
 
     public void setAuthenticatedId(Long authenticatedId) {

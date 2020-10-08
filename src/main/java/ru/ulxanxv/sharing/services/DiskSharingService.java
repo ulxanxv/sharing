@@ -2,18 +2,11 @@ package ru.ulxanxv.sharing.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ulxanxv.sharing.aspects.IDefineId;
 import ru.ulxanxv.sharing.models.Client;
-import ru.ulxanxv.sharing.models.Disk;
 import ru.ulxanxv.sharing.models.TakenItem;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
-import ru.ulxanxv.sharing.repositories.CredentialRepository;
-import ru.ulxanxv.sharing.repositories.DiskRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
 
 import java.util.Collections;
@@ -34,8 +27,8 @@ public class DiskSharingService {
     }
 
     @Transactional
-    public ResponseEntity<?> getDisk(Long id) {
-        Disk disk = takenItemRepository.findFreeDisk(id);
+    public ResponseEntity<?> takeDisk(Long id) {
+        TakenItem disk = takenItemRepository.findFreeDisk(id);
 
         if (disk == null) {
             return ResponseEntity.badRequest().body("This disk is busy!");

@@ -14,8 +14,8 @@ public interface TakenItemRepository extends JpaRepository<TakenItem, Long> {
     @Query("SELECT d FROM TakenItem t JOIN Disk d ON t.disk.id = d.id WHERE t.debtor.id = :id")
     List<Disk> findTakenDisks(@Param("id") Long id);
 
-    @Query("SELECT d FROM Disk d JOIN TakenItem t ON d.id = t.disk.id WHERE d.id = :id AND t.isFree = true")
-    Disk findFreeDisk(@Param("id") Long id);
+    @Query("SELECT t FROM TakenItem t WHERE t.disk.id = :id AND t.isFree = true")
+    TakenItem findFreeDisk(@Param("id") Long id);
 
     @Query("SELECT t FROM TakenItem t WHERE t.disk.id = :id")
     TakenItem findByDiskId(@Param("id") Long id);
