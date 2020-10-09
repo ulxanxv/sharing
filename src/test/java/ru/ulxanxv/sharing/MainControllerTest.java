@@ -5,6 +5,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -94,12 +98,8 @@ public class MainControllerTest {
     }
 
     @Test
+    @WithUserDetails(value = "Ulxanxv", userDetailsServiceBeanName = "detailsService")
     public void tryTakeDiskFromYourself() throws Exception {
-        /*
-            Auth
-         */
-        auth();
-
         this.mockMvc.perform(put("/user/disk/take/1")
                 .with(userHttpBasic()))
                 .andDo(print())

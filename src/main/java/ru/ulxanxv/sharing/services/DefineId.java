@@ -7,14 +7,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.CannotCreateTransactionException;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
 
-public class DefineIdService implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
+public class DefineId implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 
     protected Long authenticatedId;
 
     protected final CredentialRepository credentialRepository;
 
     @Autowired
-    public DefineIdService(CredentialRepository credentialRepository) {
+    public DefineId(CredentialRepository credentialRepository) {
         this.credentialRepository = credentialRepository;
     }
 

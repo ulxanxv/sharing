@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class DiskInfoService extends DefineIdService {
+public class DiskInfoService extends DefineId {
 
     private final ClientRepository clientRepository;
     private final TakenItemRepository takenItemRepository;

@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Service
-public class DiskSharingService extends DefineIdService {
+public class DiskSharingService extends DefineId {
 
     private final ClientRepository clientRepository;
     private final TakenItemRepository takenItemRepository;
