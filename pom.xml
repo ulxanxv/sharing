@@ -12,7 +12,7 @@
 	<artifactId>sharing</artifactId>
 	<name>sharing</name>
 	<description>For the Challenge</description>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>11</java.version>
