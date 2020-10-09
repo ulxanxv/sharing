@@ -7,21 +7,23 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.ulxanxv.sharing.models.Client;
 import ru.ulxanxv.sharing.models.TakenItem;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
+import ru.ulxanxv.sharing.repositories.CredentialRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
 
 import java.util.Collections;
 import java.util.Optional;
 
 @Service
-public class DiskSharingService {
-
-    private Long authenticatedId;
+public class DiskSharingService extends DefineIdService {
 
     private final ClientRepository clientRepository;
     private final TakenItemRepository takenItemRepository;
 
     @Autowired
-    public DiskSharingService(ClientRepository clientRepository, TakenItemRepository takenItemRepository) {
+    public DiskSharingService(ClientRepository clientRepository,
+                              TakenItemRepository takenItemRepository,
+                              CredentialRepository credentialRepository) {
+        super(credentialRepository);
         this.clientRepository = clientRepository;
         this.takenItemRepository = takenItemRepository;
     }

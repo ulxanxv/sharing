@@ -7,6 +7,7 @@ import ru.ulxanxv.sharing.models.Auxiliary;
 import ru.ulxanxv.sharing.models.Client;
 import ru.ulxanxv.sharing.models.Disk;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
+import ru.ulxanxv.sharing.repositories.CredentialRepository;
 import ru.ulxanxv.sharing.repositories.DiskRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
 
@@ -16,17 +17,18 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class DiskInfoService {
-
-    private Long authenticatedId;
+public class DiskInfoService extends DefineIdService {
 
     private final ClientRepository clientRepository;
     private final TakenItemRepository takenItemRepository;
     private final DiskRepository diskRepository;
 
-
     @Autowired
-    public DiskInfoService(ClientRepository clientRepository, TakenItemRepository takenItemRepository, DiskRepository diskRepository) {
+    public DiskInfoService(ClientRepository clientRepository,
+                           TakenItemRepository takenItemRepository,
+                           DiskRepository diskRepository,
+                           CredentialRepository credentialRepository) {
+        super(credentialRepository);
         this.clientRepository = clientRepository;
         this.takenItemRepository = takenItemRepository;
         this.diskRepository = diskRepository;
