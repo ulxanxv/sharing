@@ -12,7 +12,6 @@
 	<artifactId>sharing</artifactId>
 	<name>sharing</name>
 	<version>1.0</version>
-	<description>For the Challenge</description>
 	<packaging>jar</packaging>
 
 	<properties>
