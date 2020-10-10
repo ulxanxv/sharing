@@ -62,7 +62,4 @@ public class DiskInfoService extends DefineId {
         return takenDisksFromUser;
     }
 
-    public void setAuthenticatedId(Long authenticatedId) {
-        this.authenticatedId = authenticatedId;
-    }
 }

@@ -82,7 +82,4 @@ public class DiskSharingService extends DefineId {
         return ResponseEntity.ok(Collections.EMPTY_LIST);
     }
 
-    public void setAuthenticatedId(Long authenticatedId) {
-        this.authenticatedId = authenticatedId;
-    }
 }
