@@ -1,13 +1,13 @@
-package ru.ulxanxv.sharing.services;
+package ru.ulxanxv.sharing.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.CannotCreateTransactionException;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
 
-public class DefineId implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
+public abstract class DefineId implements ApplicationListener<AuthenticationSuccessEvent> {
 
     protected Long authenticatedId;
 
@@ -19,8 +19,8 @@ public class DefineId implements ApplicationListener<InteractiveAuthenticationSu
     }
 
     @Override
-    public void onApplicationEvent(InteractiveAuthenticationSuccessEvent interactiveAuthenticationSuccessEvent) {
-        User auth = ((User) interactiveAuthenticationSuccessEvent.getAuthentication().getPrincipal());
+    public void onApplicationEvent(AuthenticationSuccessEvent authenticationSuccessEvent) {
+        User auth = ((User) authenticationSuccessEvent.getAuthentication().getPrincipal());
 
         if (auth != null) {
             String userName = auth.getUsername();

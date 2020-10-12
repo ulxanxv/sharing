@@ -9,6 +9,7 @@ import ru.ulxanxv.sharing.models.TakenItem;
 import ru.ulxanxv.sharing.repositories.ClientRepository;
 import ru.ulxanxv.sharing.repositories.CredentialRepository;
 import ru.ulxanxv.sharing.repositories.TakenItemRepository;
+import ru.ulxanxv.sharing.security.DefineId;
 
 import java.util.Collections;
 import java.util.Optional;
