@@ -29,11 +29,13 @@ PostgreSQL 11+
 
 Для соединения с БД нужно задать параметры :
 
+***
 CONNECTION к БД — --spring.datasource.url=`value`,
 ***
 DB_USERNAME — --spring.datasource.username=`value`
 ***
 DB_PASSWORD — --spring.datasource.password=`value`
+***
 
 По умолчанию приложение соединяется с `localhost:5432, DB_NAME=sharing, DB_USERNAME=postgres, DB_PASSWORD=1234`
 
