@@ -43,7 +43,7 @@ public class MainControllerTest {
 
     @Test
     public void takenDisks() throws Exception {
-        this.mockMvc.perform(get("/user/disks/taken/by_me")
+        this.mockMvc.perform(get("/user/disks/taken")
                 .with(httpBasic("Ulxanxv", "1234")))
                 .andDo(print())
                 .andExpect(content().string(containsString("[{\"id\":6,\"name\":\"Sixth Disk\"},{\"id\":7,\"name\":\"Seventh Disk\"}]")));
@@ -51,7 +51,7 @@ public class MainControllerTest {
 
     @Test
     public void takenFromUser() throws Exception {
-        this.mockMvc.perform(get("/user/disks/taken/from_me")
+        this.mockMvc.perform(get("/user/disks/given")
                 .with(httpBasic("Ulxanxv", "1234")))
                 .andDo(print())
                 .andExpect(content().string(containsString("")));
@@ -66,7 +66,7 @@ public class MainControllerTest {
                 .andExpect(status().isOk());
 
         // Data has changed in the database
-        this.mockMvc.perform(get("/user/disks/taken/by_me")
+        this.mockMvc.perform(get("/user/disks/taken")
                 .with(httpBasic("Ulxanxv", "1234")))
                 .andDo(print())
                 .andExpect(content().string(containsString("[{\"id\":4,\"name\":\"Fourth Disk\"},{\"id\":6,\"name\":\"Sixth Disk\"},{\"id\":7,\"name\":\"Seventh Disk\"}]")));
@@ -78,7 +78,7 @@ public class MainControllerTest {
                 .andExpect(status().isOk());
 
         // Data has changed in the database (now not a debtor)
-        this.mockMvc.perform(get("/user/disks/taken/by_me")
+        this.mockMvc.perform(get("/user/disks/taken")
                 .with(httpBasic("Ulxanxv", "1234")))
                 .andDo(print())
                 .andExpect(content().string(containsString("[{\"id\":6,\"name\":\"Sixth Disk\"},{\"id\":7,\"name\":\"Seventh Disk\"}]")));

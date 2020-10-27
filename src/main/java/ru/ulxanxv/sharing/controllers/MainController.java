@@ -27,22 +27,22 @@ public class MainController {
 
     @GetMapping("/disks/all")
     public ResponseEntity<List<Disk>> disks() {
-        return ResponseEntity.ok(diskInfoService.allUserDisks());
+        return ResponseEntity.ok(diskInfoService.userDisks());
     }
 
     @GetMapping("/disks/free")
     public ResponseEntity<List<Disk>> freeDisks() {
-        return ResponseEntity.ok(diskInfoService.allFreeDisks());
+        return ResponseEntity.ok(diskInfoService.freeDisks());
     }
 
-    @GetMapping("/disks/taken/by_me")
-    public ResponseEntity<List<Disk>> takenDisksByMe() {
-        return ResponseEntity.ok(diskInfoService.allTakenDisksByUser());
+    @GetMapping("/disks/taken")
+    public ResponseEntity<List<Disk>> takenDisks() {
+        return ResponseEntity.ok(diskInfoService.takenDisks());
     }
 
-    @GetMapping("/disks/taken/from_me")
-    public ResponseEntity<List<Auxiliary>> takenDisksFromMe() {
-        return ResponseEntity.ok(diskInfoService.allTakenDisksFromUser());
+    @GetMapping("/disks/given")
+    public ResponseEntity<List<Auxiliary>> givenDisks() {
+        return ResponseEntity.ok(diskInfoService.givenDisks());
     }
 
     @PutMapping("/disk/take/{id}")

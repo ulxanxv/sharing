@@ -36,7 +36,7 @@ public class DiskInfoService extends DefineId {
     }
 
     @Transactional(readOnly = true)
-    public List<Disk> allUserDisks() {
+    public List<Disk> userDisks() {
         Optional<Client> byId = clientRepository.findById(authenticatedId);
 
         if (byId.isPresent()) {
@@ -47,17 +47,17 @@ public class DiskInfoService extends DefineId {
     }
 
     @Transactional(readOnly = true)
-    public List<Disk> allFreeDisks() {
+    public List<Disk> freeDisks() {
         return diskRepository.findFreeDisks(authenticatedId);
     }
 
     @Transactional(readOnly = true)
-    public List<Disk> allTakenDisksByUser() {
+    public List<Disk> takenDisks() {
         return takenItemRepository.findTakenDisks(authenticatedId);
     }
 
     @Transactional(readOnly = true)
-    public List<Auxiliary> allTakenDisksFromUser() {
+    public List<Auxiliary> givenDisks() {
         List<Auxiliary> takenDisksFromUser = new ArrayList<>();
         takenItemRepository.findTakenItemFromUser(authenticatedId).forEach(x -> takenDisksFromUser.add(Auxiliary.getInstance(x)));
         return takenDisksFromUser;

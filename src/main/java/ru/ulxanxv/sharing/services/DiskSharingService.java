@@ -39,21 +39,21 @@ public class DiskSharingService extends DefineId {
 
         Optional<Client> byId = clientRepository.findById(authenticatedId);
 
-        if (byId.isPresent()) {
-            Client client = byId.get();
+        if (byId.isEmpty()) {
+            return ResponseEntity.badRequest().body("User not found!");
+        }
+        Client client = byId.get();
 
-            if (client.getName().equals(disk.getOwner().getName())) {
-                return ResponseEntity.badRequest().body("You cannot borrow your disc from yourself!");
-            }
-
-            TakenItem takenItem = takenItemRepository.findByDiskId(disk.getId());
-            takenItem.setDebtor(client);
-            takenItemRepository.save(takenItem);
-
-            return ResponseEntity.ok(Collections.EMPTY_LIST);
+        if (client.getName().equals(disk.getOwner().getName())) {
+            return ResponseEntity.badRequest().body("You cannot borrow your disc from yourself!");
         }
 
-        return ResponseEntity.badRequest().body("User not found!");
+        TakenItem takenItem = takenItemRepository.findByDiskId(disk.getId());
+        takenItem.setDebtor(client);
+        takenItemRepository.save(takenItem);
+
+        return ResponseEntity.ok(Collections.EMPTY_LIST);
+
     }
 
     @Transactional
@@ -66,21 +66,21 @@ public class DiskSharingService extends DefineId {
 
         Optional<Client> byId = clientRepository.findById(authenticatedId);
 
-        if (byId.isPresent()) {
-            Client client = byId.get();
-
-            if (!client.getName().equals(returningDisk.getDebtor().getName())) {
-                return ResponseEntity.badRequest().body("You cannot return this disc!");
-            }
-
-            TakenItem takenItem = takenItemRepository.findByDiskId(returningDisk.getId());
-            takenItem.setDebtor(null);
-            takenItemRepository.save(takenItem);
-
+        if (byId.isEmpty()) {
             return ResponseEntity.ok(Collections.EMPTY_LIST);
         }
+        Client client = byId.get();
+
+        if (!client.getName().equals(returningDisk.getDebtor().getName())) {
+            return ResponseEntity.badRequest().body("You cannot return this disc!");
+        }
+
+        TakenItem takenItem = takenItemRepository.findByDiskId(returningDisk.getId());
+        takenItem.setDebtor(null);
+        takenItemRepository.save(takenItem);
 
         return ResponseEntity.ok(Collections.EMPTY_LIST);
+
     }
 
 }
